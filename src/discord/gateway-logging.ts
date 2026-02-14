@@ -52,7 +52,10 @@ export function attachDiscordGatewayLogging(params: {
   };
 
   const onGatewayMetrics = (metrics: unknown) => {
-    logVerbose(`discord gateway metrics: ${formatGatewayMetrics(metrics)}`);
+    const formatted = formatGatewayMetrics(metrics);
+    logVerbose(`discord gateway metrics: ${formatted}`);
+    // Promote metrics to INFO to track heartbeat health (latency field)
+    runtime.log?.(`discord gateway metrics: ${formatted}`);
   };
 
   emitter.on("debug", onGatewayDebug);
